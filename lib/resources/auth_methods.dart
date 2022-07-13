@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:digitize_app_v1/models/User.dart' as model;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -33,16 +34,21 @@ class AuthMethods {
         print(cred.user!.uid);
 
         //Add User to database
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'uid': cred.user!.uid,
-          'firstName': firstName,
-          'lastName': lastName,
-          'email': email,
-          'year': year,
-          'branch': branch,
-          'password': password,
-          'confirmPassword': confirmPassword
-        });
+
+        model.User user = model.User(
+          uid: cred.user!.uid,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          year: year,
+          branch: branch,
+          password: password,
+          confirmPassword: confirmPassword,
+        );
+
+        await _firestore.collection('users').doc(cred.user!.uid).set(
+              user.toJson(),
+            );
 
         res = "success";
       }
