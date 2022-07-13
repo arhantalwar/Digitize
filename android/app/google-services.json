@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "695544306536",
+    "project_id": "digitize-app",
+    "storage_bucket": "digitize-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695544306536:android:0d6f7f9cda5339dac454dd",
+        "android_client_info": {
+          "package_name": "com.example.digitize_app_v1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695544306536-pu6abjo6mb8pjku6tbr64ubf7utg83as.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhGX8cy9lz8AJsKa5F8orW90Bjgb2uZ94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695544306536-pu6abjo6mb8pjku6tbr64ubf7utg83as.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
