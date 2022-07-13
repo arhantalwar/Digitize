@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
   final String firstName;
   final String lastName;
@@ -29,4 +31,19 @@ class User {
         'password': password,
         'confirmPassword': confirmPassword
       };
+
+  static User fromSnap(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
+
+    return User(
+      email: snapshot['email'],
+      firstName: snapshot['firstName'],
+      lastName: snapshot['lastName'],
+      uid: snapshot['uid'],
+      year: snapshot['year'],
+      branch: snapshot['branch'],
+      password: snapshot['password'],
+      confirmPassword: snapshot['confirmPassword'],
+    );
+  }
 }

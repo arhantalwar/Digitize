@@ -1,4 +1,8 @@
+import 'package:digitize_app_v1/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/user.dart' as model;
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
@@ -10,8 +14,9 @@ class MobileScreenLayout extends StatefulWidget {
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('this is mobile')),
+    model.User user = Provider.of<UserProvider>(context).getUser;
+    return Scaffold(
+      body: Center(child: Text(user.branch)),
     );
   }
 }
