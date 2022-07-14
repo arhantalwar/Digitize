@@ -1,5 +1,6 @@
 import 'package:digitize_app_v1/providers/user_provider.dart';
 import 'package:digitize_app_v1/utils/colors.dart';
+import 'package:digitize_app_v1/utils/global_variables.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,13 +45,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
     return Scaffold(
       body: PageView(
-        children: [
-          Text("Home"),
-          Text("sd"),
-          Text("fdfdfdf"),
-          Text("sdsd"),
-          Text("dsd"),
-        ],
+        children: homeScreenItems,
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: onPageChanged,
