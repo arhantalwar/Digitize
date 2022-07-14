@@ -1,7 +1,13 @@
+import 'package:digitize_app_v1/models/user.dart';
+import 'package:digitize_app_v1/resources/firestore_methods.dart';
 import 'package:digitize_app_v1/utils/colors.dart';
+import 'package:digitize_app_v1/utils/utils.dart';
 import 'package:digitize_app_v1/widgets/text_field_input_description.dart';
 import 'package:digitize_app_v1/widgets/text_field_input_header.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/user_provider.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({Key? key}) : super(key: key);
@@ -24,7 +30,27 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     _taskDescriptionController.dispose();
   }
 
-  void postTask() {}
+  void postTask(
+    String uid,
+    String email,
+  ) async {
+    try {
+      String res = await FirestoreMethods().uploadTask(
+        _taskDescriptionController.text,
+        _taskHeaderController.text,
+        uid,
+        email,
+      );
+
+      if (res == "success") {
+        showSnackBar("Posted", context);
+      } else {
+        showSnackBar(res, context);
+      }
+    } catch (err) {
+      showSnackBar(err.toString(), context);
+    }
+  }
 
   _selectTask(BuildContext context) async {
     return showDialog(
@@ -60,6 +86,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
+
     return _taskAns == null
         ? Center(
             child: IconButton(
@@ -93,7 +121,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     Icons.check,
                     color: Colors.blueAccent,
                   ),
-                  onPressed: postTask,
+                  onPressed: () => postTask(user.uid, user.email),
                 ),
               ],
             ),

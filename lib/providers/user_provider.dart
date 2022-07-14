@@ -1,7 +1,7 @@
 import 'package:digitize_app_v1/resources/auth_methods.dart';
 import 'package:flutter/material.dart';
 
-import '../models/User.dart';
+import '../models/user.dart';
 
 class UserProvider with ChangeNotifier {
   User? _user;
