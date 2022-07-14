@@ -23,6 +23,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   final TextEditingController _taskDescriptionController =
       TextEditingController();
 
+  bool _isLoading = false;
+
+  void clearTask() {
+    setState(() {
+      _taskAns = null;
+      _taskDescriptionController.text = "";
+      _taskHeaderController.text = "";
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -34,6 +44,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     String uid,
     String email,
   ) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       String res = await FirestoreMethods().uploadTask(
         _taskDescriptionController.text,
@@ -43,8 +56,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       );
 
       if (res == "success") {
+        setState(() {
+          _isLoading = false;
+        });
+        // ignore: use_build_context_synchronously
         showSnackBar("Posted", context);
+        clearTask();
       } else {
+        setState(() {
+          _isLoading = false;
+        });
+        // ignore: use_build_context_synchronously
         showSnackBar(res, context);
       }
     } catch (err) {
@@ -103,11 +125,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   Icons.arrow_back,
                   color: secondaryColor,
                 ),
-                onPressed: () {
-                  setState(() {
-                    _taskAns = null;
-                  });
-                },
+                onPressed: clearTask,
               ),
               title: const Text(
                 'Task',
@@ -131,6 +149,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  _isLoading ? const LinearProgressIndicator() : Container(),
+                  const Divider(),
                   TextFieldInputHeader(
                     textEditingController: _taskHeaderController,
                     hintText: "Title",
