@@ -24,6 +24,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     _taskDescriptionController.dispose();
   }
 
+  void postTask() {}
+
   _selectTask(BuildContext context) async {
     return showDialog(
         context: context,
@@ -73,7 +75,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   Icons.arrow_back,
                   color: secondaryColor,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    _taskAns = null;
+                  });
+                },
               ),
               title: const Text(
                 'Task',
@@ -87,7 +93,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     Icons.check,
                     color: Colors.blueAccent,
                   ),
-                  onPressed: () {},
+                  onPressed: postTask,
                 ),
               ],
             ),
