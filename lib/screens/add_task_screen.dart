@@ -150,7 +150,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   _isLoading ? const LinearProgressIndicator() : Container(),
-                  const Divider(),
+                  const Divider(
+                    color: Colors.black,
+                  ),
                   TextFieldInputHeader(
                     textEditingController: _taskHeaderController,
                     hintText: "Title",
