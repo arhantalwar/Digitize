@@ -1,8 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digitize_app_v1/models/task.dart';
-import 'package:digitize_app_v1/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
@@ -24,6 +21,7 @@ class FirestoreMethods {
         email: email,
         uid: uid,
         description: description,
+        title: title,
         taskId: taskId,
         datePublished: DateTime.now(),
       );

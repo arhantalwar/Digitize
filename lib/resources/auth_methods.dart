@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:digitize_app_v1/models/user.dart' as model;
+import 'package:digitize_app_v1/models/User.dart' as model;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

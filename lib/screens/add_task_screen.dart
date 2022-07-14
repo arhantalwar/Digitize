@@ -1,4 +1,4 @@
-import 'package:digitize_app_v1/models/user.dart';
+import 'package:digitize_app_v1/models/User.dart';
 import 'package:digitize_app_v1/resources/firestore_methods.dart';
 import 'package:digitize_app_v1/utils/colors.dart';
 import 'package:digitize_app_v1/utils/utils.dart';
