@@ -51,43 +51,49 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         onPageChanged: onPageChanged,
       ),
       bottomNavigationBar: CupertinoTabBar(
+        backgroundColor: mobileBackgroundColor,
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home,
-              color: _page == 0 ? blueColor : secondaryColor,
+              _page != 0 ? Icons.home_outlined : Icons.home,
+              color: blueColor,
+              size: 27,
             ),
             label: '',
             backgroundColor: primaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.check_box,
-              color: _page == 1 ? blueColor : secondaryColor,
+              _page != 1 ? Icons.check_box_outlined : Icons.check_box,
+              color: blueColor,
+              size: 27,
             ),
             label: '',
             backgroundColor: primaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.add_circle,
-              color: _page == 2 ? blueColor : secondaryColor,
+              _page != 2 ? Icons.add_circle_outline_outlined : Icons.add_circle,
+              color: blueColor,
+              size: 27,
             ),
             label: '',
             backgroundColor: mobileBackgroundColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.list_alt_outlined,
-              color: _page == 3 ? blueColor : secondaryColor,
+              _page != 3 ? Icons.list_sharp : Icons.list_sharp,
+              color: blueColor,
+              size: 27,
             ),
             label: '',
             backgroundColor: primaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person,
-              color: _page == 4 ? blueColor : secondaryColor,
+              _page != 4 ? Icons.person_outline : Icons.person,
+              color: blueColor,
+              size: 27,
             ),
             label: '',
             backgroundColor: primaryColor,
