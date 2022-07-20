@@ -228,7 +228,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   TextFieldInputDescription(
                     textEditingController: _taskDescriptionController,
                     hintText: "Description",
-                    textInputType: TextInputType.name,
+                    textInputType: TextInputType.multiline,
                   ),
                 ],
               ),
