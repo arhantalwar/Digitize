@@ -20,7 +20,7 @@ class TextFieldInputDescription extends StatelessWidget {
     );
 
     return TextField(
-      maxLines: 15,
+      maxLines: 16,
       controller: textEditingController,
       style: const TextStyle(
           fontFamily: 'Opensans',

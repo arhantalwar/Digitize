@@ -6,8 +6,8 @@ import 'package:digitize_app_v1/utils/utils.dart';
 import 'package:digitize_app_v1/widgets/text_field_input_description.dart';
 import 'package:digitize_app_v1/widgets/text_field_input_header.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/user_provider.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -19,7 +19,9 @@ class AddTaskScreen extends StatefulWidget {
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
   int? _taskAns;
-
+  int? daysLeft = 0;
+  late DateTime date;
+  DateTime _dateTime = DateTime.now();
   final TextEditingController _taskHeaderController = TextEditingController();
   final TextEditingController _taskDescriptionController =
       TextEditingController();
@@ -31,6 +33,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       _taskAns = null;
       _taskDescriptionController.text = "";
       _taskHeaderController.text = "";
+      _dateTime = DateTime.now();
     });
   }
 
@@ -54,6 +57,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         _taskHeaderController.text,
         uid,
         email,
+        daysLeft!,
+        date,
       );
 
       if (res == "success") {
@@ -229,6 +234,71 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     textEditingController: _taskDescriptionController,
                     hintText: "Description",
                     textInputType: TextInputType.multiline,
+                  ),
+                  Container(
+                    child: Container(
+                        padding: const EdgeInsets.only(left: 20),
+                        alignment: Alignment.centerLeft,
+                        width: double.infinity,
+                        height: 30,
+                        child: Row(
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: [
+                            const Text(
+                              "DeadLine",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      DateTime? newDate = await showDatePicker(
+                        context: context,
+                        initialDate: _dateTime,
+                        firstDate: DateTime(2022),
+                        lastDate: DateTime(2025),
+                      );
+                      if (newDate == null) return;
+
+                      setState(() {
+                        _dateTime = newDate;
+                        final diff = newDate.difference(DateTime.now()).inDays;
+                        daysLeft = diff;
+                        date = _dateTime;
+                      });
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.only(left: 20),
+                        alignment: Alignment.centerLeft,
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              DateFormat('MMM ').format(_dateTime),
+                              style: const TextStyle(
+                                fontSize: 30,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              DateFormat('d').format(_dateTime),
+                              style: const TextStyle(
+                                fontSize: 30,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        )),
                   ),
                 ],
               ),

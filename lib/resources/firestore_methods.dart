@@ -12,6 +12,8 @@ class FirestoreMethods {
     String title,
     String uid,
     String email,
+    int daysLeft,
+    DateTime date,
   ) async {
     String res = "some error occured";
     try {
@@ -23,7 +25,8 @@ class FirestoreMethods {
         description: description,
         title: title,
         taskId: taskId,
-        datePublished: DateTime.now(),
+        daysLeft: daysLeft,
+        date: date,
       );
 
       _firestore.collection('tasks').doc(taskId).set(

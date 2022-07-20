@@ -17,67 +17,75 @@ class TaskCard extends StatelessWidget {
         horizontal: 25,
       ),
       padding: const EdgeInsets.symmetric(
-        horizontal: 25,
+        horizontal: 11,
       ),
       decoration: BoxDecoration(
         border: Border(
-          left: BorderSide(width: 2.2, color: Colors.lightBlue.shade600),
+          left: BorderSide(width: 1.4, color: Colors.lightBlue.shade600),
         ),
         color: mobileBackgroundColor,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            snap['title'],
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            snap['description'],
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-            ),
-            maxLines: 8,
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Row(
-            // ignore: prefer_const_literals_to_create_immutables
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ignore: prefer_const_constructors
-              Icon(
-                Icons.people,
-                color: Colors.grey,
-                size: 22,
+              Text(
+                snap['title'],
+                style: const TextStyle(
+                  fontSize: 22,
+                ),
               ),
-              const Text(
-                "  ${4} Members Assign",
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 15,
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                snap['description'],
+                style: const TextStyle(
+                  fontSize: 16,
                   fontWeight: FontWeight.normal,
                 ),
                 maxLines: 8,
               ),
-              const Text(
-                "${2} Days Left",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal,
-                ),
-                maxLines: 8,
+              const SizedBox(
+                height: 30,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  // ignore: prefer_const_constructors
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.people,
+                        color: Colors.grey,
+                        size: 18,
+                      ),
+                      Text(
+                        "  ${4} Members Assign",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 11,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        maxLines: 8,
+                      )
+                    ],
+                  ),
+                  Text(
+                    "${snap['daysLeft']} Days Left",
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 8,
+                  ),
+                ],
+              )
             ],
-          )
+          ),
         ],
       ),
     );
