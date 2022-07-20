@@ -1,4 +1,5 @@
 import 'package:digitize_app_v1/models/User.dart';
+import 'package:digitize_app_v1/providers/task_provider_header.dart';
 import 'package:digitize_app_v1/resources/firestore_methods.dart';
 import 'package:digitize_app_v1/utils/colors.dart';
 import 'package:digitize_app_v1/utils/utils.dart';
@@ -93,7 +94,27 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
               SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
+                child: const Text("Meet"),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  setState(() {
+                    _taskAns = null;
+                  });
+                },
+              ),
+              SimpleDialogOption(
+                padding: const EdgeInsets.all(20),
                 child: const Text("Event"),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  setState(() {
+                    _taskAns = null;
+                  });
+                },
+              ),
+              SimpleDialogOption(
+                padding: const EdgeInsets.all(20),
+                child: const Text("Poll"),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   setState(() {
@@ -112,9 +133,46 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
     return _taskAns == null
         ? Center(
-            child: IconButton(
-              icon: const Icon(Icons.upload),
-              onPressed: () => _selectTask(context),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Container(),
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.add,
+                      size: 35,
+                      color: Color.fromARGB(255, 190, 190, 190),
+                    ),
+                    onPressed: () => _selectTask(context),
+                  ),
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      // color: Colors.lightBlue,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text(
+                      "Add Task, Meet, Event, Poll",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Container(),
+                  ),
+                ],
+              ),
             ),
           )
         : Scaffold(
@@ -134,12 +192,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               elevation: 0,
               centerTitle: true,
               actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.check,
-                    color: Colors.blueAccent,
+                ChangeNotifierProvider<TaskProvider>(
+                  create: (context) => TaskProvider(),
+                  child: Consumer<TaskProvider>(
+                    builder: (context, provider, child) {
+                      return IconButton(
+                        icon: const Icon(
+                          Icons.check,
+                          color: Colors.blueAccent,
+                        ),
+                        onPressed: () => provider.notEmpty(
+                                    _taskHeaderController,
+                                    _taskDescriptionController) ==
+                                true
+                            ? postTask(user.uid, user.email)
+                            : showSnackBar("Write Something", context),
+                      );
+                    },
                   ),
-                  onPressed: () => postTask(user.uid, user.email),
                 ),
               ],
             ),
@@ -150,9 +220,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   _isLoading ? const LinearProgressIndicator() : Container(),
-                  const Divider(
-                    color: Colors.black,
-                  ),
                   TextFieldInputHeader(
                     textEditingController: _taskHeaderController,
                     hintText: "Title",

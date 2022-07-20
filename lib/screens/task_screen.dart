@@ -11,15 +11,15 @@ class TaskScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: secondaryColor,
-          ),
-          onPressed: () {},
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(
+        //     Icons.arrow_back,
+        //     color: secondaryColor,
+        //   ),
+        //   onPressed: () {},
+        // ),
         title: const Text(
-          'Task',
+          'Tasks',
           style: TextStyle(color: secondaryColor),
         ),
         elevation: 0,

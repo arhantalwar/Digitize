@@ -68,7 +68,7 @@ class TaskCard extends StatelessWidget {
                 maxLines: 8,
               ),
               const Text(
-                "                     ${2} Days Left",
+                "${2} Days Left",
                 style: TextStyle(
                   color: Colors.red,
                   fontSize: 15,
