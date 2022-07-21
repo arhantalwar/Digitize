@@ -45,7 +45,6 @@ class TaskCard extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.normal,
                 ),
-                maxLines: 8,
               ),
               const SizedBox(
                 height: 30,

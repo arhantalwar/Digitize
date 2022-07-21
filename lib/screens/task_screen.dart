@@ -11,13 +11,6 @@ class TaskScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
-        // leading: IconButton(
-        //   icon: const Icon(
-        //     Icons.arrow_back,
-        //     color: secondaryColor,
-        //   ),
-        //   onPressed: () {},
-        // ),
         title: const Text(
           'Tasks',
           style: TextStyle(color: secondaryColor),
@@ -35,12 +28,23 @@ class TaskScreen extends StatelessWidget {
             );
           }
 
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) => TaskCard(
-              snap: snapshot.data!.docs[index].data(),
-            ),
-          );
+          return snapshot.data!.docs.length != 0
+              ? ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) => TaskCard(
+                    snap: snapshot.data!.docs[index].data(),
+                  ),
+                )
+              : const Center(
+                  child: Text(
+                    "Woohoo!!, No tasks for now",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                );
         },
       ),
     );

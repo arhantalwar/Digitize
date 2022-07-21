@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:digitize_app_v1/models/announcement.dart';
 import 'package:digitize_app_v1/models/task.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  //Upload
+  //Upload Task
 
   Future<String> uploadTask(
     String description,
@@ -31,6 +32,37 @@ class FirestoreMethods {
 
       _firestore.collection('tasks').doc(taskId).set(
             task.toJson(),
+          );
+      res = "success";
+    } catch (err) {
+      res = err.toString();
+    }
+
+    return res;
+  }
+
+  // Upload Announcement
+
+  Future<String> uploadAnnouncement(
+    String description,
+    String title,
+    String uid,
+    String email,
+  ) async {
+    String res = "some error occured";
+    try {
+      String announcementId = const Uuid().v1();
+
+      Announcement announcement = Announcement(
+        email: email,
+        uid: uid,
+        description: description,
+        title: title,
+        announcementId: announcementId,
+      );
+
+      _firestore.collection('announcement').doc(announcementId).set(
+            announcement.toJson(),
           );
       res = "success";
     } catch (err) {

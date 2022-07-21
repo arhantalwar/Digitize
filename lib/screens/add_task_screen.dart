@@ -1,12 +1,7 @@
 import 'package:digitize_app_v1/models/User.dart';
-import 'package:digitize_app_v1/providers/task_provider_header.dart';
-import 'package:digitize_app_v1/resources/firestore_methods.dart';
-import 'package:digitize_app_v1/utils/colors.dart';
-import 'package:digitize_app_v1/utils/utils.dart';
-import 'package:digitize_app_v1/widgets/text_field_input_description.dart';
-import 'package:digitize_app_v1/widgets/text_field_input_header.dart';
+import 'package:digitize_app_v1/screens/add_announcement.dart';
+import 'package:digitize_app_v1/screens/add_task.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
 
@@ -18,68 +13,6 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-  int? _taskAns;
-  int? daysLeft = 0;
-  late DateTime date;
-  DateTime _dateTime = DateTime.now();
-  final TextEditingController _taskHeaderController = TextEditingController();
-  final TextEditingController _taskDescriptionController =
-      TextEditingController();
-
-  bool _isLoading = false;
-
-  void clearTask() {
-    setState(() {
-      _taskAns = null;
-      _taskDescriptionController.text = "";
-      _taskHeaderController.text = "";
-      _dateTime = DateTime.now();
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _taskHeaderController.dispose();
-    _taskDescriptionController.dispose();
-  }
-
-  void postTask(
-    String uid,
-    String email,
-  ) async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      String res = await FirestoreMethods().uploadTask(
-        _taskDescriptionController.text,
-        _taskHeaderController.text,
-        uid,
-        email,
-        daysLeft!,
-        date,
-      );
-
-      if (res == "success") {
-        setState(() {
-          _isLoading = false;
-        });
-        // ignore: use_build_context_synchronously
-        showSnackBar("Posted", context);
-        clearTask();
-      } else {
-        setState(() {
-          _isLoading = false;
-        });
-        // ignore: use_build_context_synchronously
-        showSnackBar(res, context);
-      }
-    } catch (err) {
-      showSnackBar(err.toString(), context);
-    }
-  }
-
   _selectTask(BuildContext context) async {
     return showDialog(
         context: context,
@@ -92,9 +25,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 child: const Text("Task"),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  setState(() {
-                    _taskAns = 1;
-                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AddTask()),
+                  );
                 },
               ),
               SimpleDialogOption(
@@ -102,9 +36,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 child: const Text("Meet"),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  setState(() {
-                    _taskAns = null;
-                  });
                 },
               ),
               SimpleDialogOption(
@@ -112,9 +43,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 child: const Text("Event"),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  setState(() {
-                    _taskAns = null;
-                  });
                 },
               ),
               SimpleDialogOption(
@@ -122,9 +50,18 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 child: const Text("Poll"),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  setState(() {
-                    _taskAns = null;
-                  });
+                },
+              ),
+              SimpleDialogOption(
+                padding: const EdgeInsets.all(20),
+                child: const Text("Announcement"),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddAnnouncement()),
+                  );
                 },
               ),
             ],
@@ -136,172 +73,48 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
 
-    return _taskAns == null
-        ? Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Container(),
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.add,
-                      size: 35,
-                      color: Color.fromARGB(255, 190, 190, 190),
-                    ),
-                    onPressed: () => _selectTask(context),
-                  ),
-                  Container(
-                    height: 50,
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      // color: Colors.lightBlue,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Text(
-                      "Add Task, Meet, Event, Poll",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Container(),
-                  ),
-                ],
-              ),
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Flexible(
+              flex: 1,
+              child: Container(),
             ),
-          )
-        : Scaffold(
-            appBar: AppBar(
-              backgroundColor: mobileBackgroundColor,
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: secondaryColor,
-                ),
-                onPressed: clearTask,
+            IconButton(
+              icon: const Icon(
+                Icons.add,
+                size: 35,
+                color: Color.fromARGB(255, 190, 190, 190),
               ),
-              title: const Text(
-                'Task',
-                style: TextStyle(color: secondaryColor),
-              ),
-              elevation: 0,
-              centerTitle: true,
-              actions: [
-                ChangeNotifierProvider<TaskProvider>(
-                  create: (context) => TaskProvider(),
-                  child: Consumer<TaskProvider>(
-                    builder: (context, provider, child) {
-                      return IconButton(
-                        icon: const Icon(
-                          Icons.check,
-                          color: Colors.blueAccent,
-                        ),
-                        onPressed: () => provider.notEmpty(
-                                    _taskHeaderController,
-                                    _taskDescriptionController) ==
-                                true
-                            ? postTask(user.uid, user.email)
-                            : showSnackBar("Write Something", context),
-                      );
-                    },
-                  ),
-                ),
-              ],
+              onPressed: () => _selectTask(context),
             ),
-            body: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+            Container(
+              height: 50,
               width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _isLoading ? const LinearProgressIndicator() : Container(),
-                  TextFieldInputHeader(
-                    textEditingController: _taskHeaderController,
-                    hintText: "Title",
-                    textInputType: TextInputType.name,
-                  ),
-                  TextFieldInputDescription(
-                    textEditingController: _taskDescriptionController,
-                    hintText: "Description",
-                    textInputType: TextInputType.multiline,
-                  ),
-                  Container(
-                    child: Container(
-                        padding: const EdgeInsets.only(left: 20),
-                        alignment: Alignment.centerLeft,
-                        width: double.infinity,
-                        height: 30,
-                        child: Row(
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            const Text(
-                              "DeadLine",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        )),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      DateTime? newDate = await showDatePicker(
-                        context: context,
-                        initialDate: _dateTime,
-                        firstDate: DateTime(2022),
-                        lastDate: DateTime(2025),
-                      );
-                      if (newDate == null) return;
-
-                      setState(() {
-                        _dateTime = newDate;
-                        final diff = newDate.difference(DateTime.now()).inDays;
-                        daysLeft = diff;
-                        date = _dateTime;
-                      });
-                    },
-                    child: Container(
-                        padding: const EdgeInsets.only(left: 20),
-                        alignment: Alignment.centerLeft,
-                        width: double.infinity,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              DateFormat('MMM ').format(_dateTime),
-                              style: const TextStyle(
-                                fontSize: 30,
-                                color: Colors.black87,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              DateFormat('d').format(_dateTime),
-                              style: const TextStyle(
-                                fontSize: 30,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        )),
-                  ),
-                ],
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                // color: Colors.lightBlue,
+                borderRadius: BorderRadius.circular(12),
               ),
-            ));
+              child: const Text(
+                "Add Task, Meet, Event, Poll",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
