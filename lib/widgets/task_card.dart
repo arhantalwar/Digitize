@@ -55,7 +55,7 @@ class TaskCard extends StatelessWidget {
                 children: [
                   // ignore: prefer_const_constructors
                   Row(
-                    children: [
+                    children: const [
                       Icon(
                         Icons.people,
                         color: Colors.grey,
