@@ -41,6 +41,18 @@ class _ProfileScreenState extends State<ProfileScreen>
           "Profile",
           style: TextStyle(color: Colors.black),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(
+            width: 3,
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
