@@ -45,6 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
+          // ignore: sized_box_for_whitespace
           child: Container(
             height: MediaQuery.of(context).size.height,
             child: Column(
