@@ -168,9 +168,10 @@ class _AddTaskScreenState extends State<AddTask> {
                         const Text(
                           "DeadLine : ",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.red,
-                          ),
+                              fontFamily: 'Opensans',
+                              fontSize: 18,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.normal),
                         ),
                         Text(
                           DateFormat('MMM ').format(_dateTime),
@@ -182,6 +183,13 @@ class _AddTaskScreenState extends State<AddTask> {
                         ),
                         Text(
                           DateFormat('d').format(_dateTime),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          ", in $daysLeft Days",
                           style: const TextStyle(
                             fontSize: 18,
                             color: Colors.black,

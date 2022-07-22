@@ -1,4 +1,5 @@
 import 'package:digitize_app_v1/providers/user_provider.dart';
+import 'package:digitize_app_v1/screens/profile_screen.dart';
 import 'package:digitize_app_v1/utils/colors.dart';
 import 'package:digitize_app_v1/utils/global_variables.dart';
 import 'package:flutter/cupertino.dart';
@@ -90,10 +91,19 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
             backgroundColor: primaryColor,
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              _page != 4 ? Icons.person_outline : Icons.person,
-              color: blueColor,
-              size: 27,
+            icon: InkWell(
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileScreen()),
+                );
+              },
+              child: Icon(
+                _page != 4 ? Icons.person_outline : Icons.person,
+                color: blueColor,
+                size: 27,
+              ),
             ),
             label: '',
             backgroundColor: primaryColor,
