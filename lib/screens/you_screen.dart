@@ -1,7 +1,17 @@
+import 'dart:typed_data';
+
+import 'package:digitize_app_v1/providers/user_provider.dart';
+import 'package:digitize_app_v1/resources/auth_methods.dart';
+import 'package:digitize_app_v1/resources/firestore_methods.dart';
+import 'package:digitize_app_v1/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import '../models/User.dart';
 
 class YouScreen extends StatefulWidget {
   const YouScreen({Key? key}) : super(key: key);
@@ -11,8 +21,54 @@ class YouScreen extends StatefulWidget {
 }
 
 class _YouScreenState extends State<YouScreen> {
+  Uint8List? _file;
+
+  // void selectImage() async {
+  //   Uint8List im = await pickImage(ImageSource.gallery);
+  //   setState(() {
+  //     _image = im;
+  //   });
+  // }
+
+  void addProfile(
+    String uid,
+  ) async {
+    try {
+      String res = await FirestoreMethods().uploadProfile(
+        _file!,
+      );
+
+      if (res == 'success') {
+        showSnackBar("Uploaded", context);
+      } else {
+        showSnackBar(res, context);
+      }
+    } catch (err) {
+      showSnackBar(err.toString(), context);
+    }
+  }
+
+  void selectProfile() async {
+    Uint8List file = await pickImage(
+      ImageSource.gallery,
+    );
+
+    setState(() {
+      _file = file;
+    });
+
+    // String res = await AuthMethods().addProfile(file: _image!);
+
+    // if (res != "success") {
+    //   // ignore: use_build_context_synchronously
+    //   showSnackBar(res, context);
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
@@ -24,23 +80,36 @@ class _YouScreenState extends State<YouScreen> {
               children: [
                 Stack(
                   children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png'),
-                      backgroundColor: Colors.amber.shade300,
-                      radius: 80,
-                    ),
+                    _file != null
+                        ? CircleAvatar(
+                            backgroundImage: MemoryImage(_file!),
+                            backgroundColor: Colors.amber.shade300,
+                            radius: 80,
+                          )
+                        : CircleAvatar(
+                            backgroundImage: const NetworkImage(
+                                'https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png'),
+                            backgroundColor: Colors.amber.shade300,
+                            radius: 80,
+                          ),
                     Positioned(
-                      top: 110,
-                      right: 0,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.add_a_photo,
-                          color: Colors.black87,
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
+                        top: 110,
+                        right: 0,
+                        child: _file == null
+                            ? IconButton(
+                                icon: const Icon(
+                                  Icons.add_a_photo,
+                                  color: Colors.black87,
+                                ),
+                                onPressed: selectProfile,
+                              )
+                            : IconButton(
+                                icon: const Icon(
+                                  Icons.check,
+                                  color: Colors.black87,
+                                ),
+                                onPressed: () => addProfile(user.uid),
+                              )),
                   ],
                 ),
                 const SizedBox(height: 30),
@@ -94,7 +163,7 @@ class _YouScreenState extends State<YouScreen> {
               const SizedBox(width: 10),
               const SizedBox(height: 60),
               CircleAvatar(
-                backgroundImage: NetworkImage(
+                backgroundImage: const NetworkImage(
                     'https://lh3.googleusercontent.com/a-/AFdZucqLrPbIVciNAe2mHWVZLW-ibHqA5IU24YIoQbjd=s288-p-rw-no'),
                 backgroundColor: Colors.green.shade300,
                 radius: 27,

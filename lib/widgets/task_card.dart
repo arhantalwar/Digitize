@@ -65,7 +65,7 @@ class TaskCard extends StatelessWidget {
                         "  ${4} Members Assign",
                         style: TextStyle(
                           color: Colors.grey,
-                          fontSize: 11,
+                          fontSize: 14,
                           fontWeight: FontWeight.normal,
                         ),
                         maxLines: 8,
@@ -76,7 +76,7 @@ class TaskCard extends StatelessWidget {
                     "${snap['daysLeft']} Days Left",
                     style: const TextStyle(
                       color: Colors.red,
-                      fontSize: 11,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 8,

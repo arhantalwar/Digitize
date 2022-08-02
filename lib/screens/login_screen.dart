@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  String res = "fail";
 
   @override
   void dispose() {
@@ -34,7 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     String res = await AuthMethods().loginUser(
-        email: _emailController.text, password: _passwordController.text);
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
 
     if (res == "success") {
       // ignore: use_build_context_synchronously
@@ -46,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       );
-    } else {
+    } else if (res != "success") {
       // ignore: use_build_context_synchronously
       showSnackBar(res, context);
     }

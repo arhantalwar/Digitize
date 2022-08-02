@@ -9,5 +9,5 @@ const homeScreenItems = [
   TaskScreen(),
   AddTaskScreen(),
   Text("sdsd"),
-  Text("sdsdasdasd"),
+  Text("Profile Screen"),
 ];

@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digitize_app_v1/models/User.dart' as model;
+import 'package:digitize_app_v1/providers/user_provider.dart';
+import 'package:digitize_app_v1/resources/storage_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -37,6 +41,7 @@ class AuthMethods {
           password.isNotEmpty ||
           confirmPassword.isNotEmpty) {
         //register User
+
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
 
@@ -84,15 +89,49 @@ class AuthMethods {
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
         await _auth.signInWithEmailAndPassword(
-            email: email, password: password);
+          email: email,
+          password: password,
+        );
+        res = "success";
       } else {
         res = "Please Enter Correct Info";
       }
-      res = "success";
     } catch (err) {
       res = err.toString();
     }
 
+    return res;
+  }
+
+  Future<String> addProfile({
+    required Uint8List file,
+  }) async {
+    String res = "Some Error Occured";
+    try {
+      if (file.isNotEmpty) {
+        // final User user = Provider.of<UserProvider>(context).getUser as User;
+
+        String photoUrl =
+            await StorageMethods().uploadImageToStorage('profilePics', file);
+
+        // await _firestore.collection('users').doc(user.uid).set({
+        //   'photoUrl': photoUrl,
+        // });
+
+        res = "success";
+      }
+    } catch (err) {
+      final User user = _auth.currentUser!;
+      final uid = user.uid;
+
+      String photoUrl =
+          await StorageMethods().uploadImageToStorage('profilePics', file);
+
+      await _firestore.collection('users').doc(uid).set({
+        'photoUrl': photoUrl,
+      });
+      res = err.toString();
+    }
     return res;
   }
 }

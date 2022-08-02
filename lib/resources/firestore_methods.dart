@@ -1,10 +1,30 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digitize_app_v1/models/announcement.dart';
 import 'package:digitize_app_v1/models/task.dart';
+import 'package:digitize_app_v1/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  //Upload Profile
+
+  Future<String> uploadProfile(
+    Uint8List file,
+  ) async {
+    String res = "some error occured";
+    try {
+      Future<String> photoUrl =
+          StorageMethods().uploadImageToStorage('profilePics', file);
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
 
   //Upload Task
 
