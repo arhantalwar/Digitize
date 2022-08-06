@@ -65,7 +65,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              _page != 1 ? Icons.check_box_outlined : Icons.check_box,
+              _page != 1 ? Icons.task_alt_outlined : Icons.task,
               color: blueColor,
               size: 27,
             ),

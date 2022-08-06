@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digitize_app_v1/providers/user_provider.dart';
 import 'package:digitize_app_v1/resources/auth_methods.dart';
 import 'package:digitize_app_v1/resources/firestore_methods.dart';
@@ -14,7 +15,9 @@ import 'package:provider/provider.dart';
 import '../models/User.dart';
 
 class YouScreen extends StatefulWidget {
-  const YouScreen({Key? key}) : super(key: key);
+  const YouScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<YouScreen> createState() => _YouScreenState();
@@ -113,42 +116,63 @@ class _YouScreenState extends State<YouScreen> {
                   ],
                 ),
                 const SizedBox(height: 30),
-                const Text(
-                  "Arhant Arun Talwar",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "CSE",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(width: 50),
-                    Text(
-                      "SY",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                const Text(
-                  "2020bcs083@sggs.ac.in",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                  ),
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .snapshots(),
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    return Column(
+                      children: [
+                        Text(
+                          snapshot.data!.docs[1].data()['firstName'] +
+                              " " +
+                              snapshot.data!.docs[1].data()['lastName'],
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              snapshot.data!.docs[1]
+                                  .data()['branch']
+                                  .toString()
+                                  .toUpperCase(),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(width: 50),
+                            Text(
+                              snapshot.data!.docs[1]
+                                  .data()['year']
+                                  .toString()
+                                  .toUpperCase(),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          snapshot.data!.docs[1].data()['email'],
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(height: 12),
               ],
